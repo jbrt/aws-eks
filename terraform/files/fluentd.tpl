@@ -78,7 +78,7 @@ data:
         @type cloudwatch_logs
         @id out_cloudwatch_logs_containers
         region "#{ENV.fetch('REGION')}"
-        log_group_name "/eks/#{ENV.fetch('CLUSTER_NAME')}/containers"
+        log_group_name "${log_group_containers}"
         log_stream_name_key stream_name
         remove_log_stream_name_key true
         auto_create_stream true
@@ -149,7 +149,7 @@ data:
         @type cloudwatch_logs
         @id out_cloudwatch_logs_systemd
         region "#{ENV.fetch('REGION')}"
-        log_group_name "/eks/#{ENV.fetch('CLUSTER_NAME')}/systemd"
+        log_group_name "${log_group_systemd}"
         log_stream_name_key stream_name
         auto_create_stream true
         remove_log_stream_name_key true

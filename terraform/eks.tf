@@ -1,3 +1,5 @@
+# Creating an EKS cluster
+
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "2.1.0"

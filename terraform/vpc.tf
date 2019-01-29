@@ -1,5 +1,5 @@
 # VPC
-#
+# Create a VPC with only a public subnet
 
 provider "aws" {
   region     = "${var.region}"
