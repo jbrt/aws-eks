@@ -22,20 +22,33 @@ variable "cluster_name" {
   default     = "my-eks-cluster"
 }
 
+variable "cluster_version" {
+  description = "The version of Kubernetes to use in the EKS cluster"
+  type        = "string"
+  default     = "1.11"
+}
+
+variable "instance_size" {
+  description = "The size of the instances used by EKS workers ASG"
+  type        = "string"
+  default     = "t2.medium"
+}
+
 # CloudWatch variables
 
 variable "log_retention" {
-    description = "Number of days for log retention"
-    default     = 1
+  description = "Number of days for log retention"
+  default     = 1
 }
 
 # Tags
 
 locals {
-    tags = {
-        Terraform   = "true"
-        Environment = "dev"
-    }
-    log_group_containers = "/eks/${var.cluster_name}/containers"
-    log_group_systemd    = "/eks/${var.cluster_name}/systemd"
+  tags = {
+    Terraform   = "true"
+    Environment = "dev"
+  }
+
+  log_group_containers = "/eks/${var.cluster_name}/containers"
+  log_group_systemd    = "/eks/${var.cluster_name}/systemd"
 }
