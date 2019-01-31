@@ -1,7 +1,7 @@
 # AWS EKS Template
 
 This project contains a fully fonctional Terraform template for creating a new 
-EKS cluster into an AWS account.
+EKS cluster into an AWS account. **Work in progress**
 
 The resources below will be created:
 
