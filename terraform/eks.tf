@@ -6,7 +6,7 @@ module "eks" {
 
   cluster_version = "${var.cluster_version}"
   cluster_name    = "${var.cluster_name}"
-  subnets         = "${module.vpc.public_subnets}"
+  subnets         = "${module.vpc.private_subnets}"
   vpc_id          = "${module.vpc.vpc_id}"
 
   worker_groups = [
