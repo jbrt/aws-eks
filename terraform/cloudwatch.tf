@@ -17,6 +17,8 @@ resource "aws_cloudwatch_log_group" "log_group_systemd" {
 }
 
 # IAM Policy and attachment
+# Generate a new policy (for authorizing logging into CloudWatch)
+# Attach this policy to the EKS IAM role
 resource "aws_iam_policy" "policy_cloudwatch" {
   name        = "EKSCloudWatchLogPolicy"
   description = "This policy allow EKS workers to send logs into cloudwatch"
@@ -41,12 +43,13 @@ resource "aws_iam_policy" "policy_cloudwatch" {
 EOF
 }
 
-resource "aws_iam_role_policy_attachment" "test-attach" {
+resource "aws_iam_role_policy_attachment" "cloudwatch-role-attach" {
   role       = "${module.eks.worker_iam_role_name}"
   policy_arn = "${aws_iam_policy.policy_cloudwatch.arn}"
 }
 
 # Generating Fluentd YAML template and applying to EKS cluster
+# EKS logs will be send to CloudWatch by this Fluentd client
 data "template_file" "fluentd_template" {
   template = "${file("${path.module}/files/fluentd.tpl")}"
   vars = {
