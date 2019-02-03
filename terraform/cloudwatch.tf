@@ -52,6 +52,7 @@ resource "aws_iam_role_policy_attachment" "cloudwatch-role-attach" {
 # EKS logs will be send to CloudWatch by this Fluentd client
 data "template_file" "fluentd_template" {
   template = "${file("${path.module}/files/fluentd.tpl")}"
+
   vars = {
     region               = "${var.region}"
     cluster_name         = "${var.cluster_name}"
@@ -61,12 +62,12 @@ data "template_file" "fluentd_template" {
 }
 
 resource "local_file" "fluentd_config" {
-    filename = "${path.module}/files/fluentd.yml"
-    content = "${data.template_file.fluentd_template.rendered}"
-    
-    depends_on = ["module.eks"]
+  filename = "${path.module}/files/fluentd.yml"
+  content  = "${data.template_file.fluentd_template.rendered}"
 
-    provisioner "local-exec" {
-        command = "kubectl --kubeconfig ${path.module}/kubeconfig_${var.cluster_name} apply -f ${path.module}/files/fluentd.yml"
+  depends_on = ["module.eks"]
+
+  provisioner "local-exec" {
+    command = "kubectl --kubeconfig ${path.module}/kubeconfig_${var.cluster_name} apply -f ${path.module}/files/fluentd.yml"
   }
 }

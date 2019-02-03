@@ -38,7 +38,7 @@ variable "instance_size" {
 
 variable "log_retention" {
   description = "Number of days for log retention"
-  default     = 1
+  default     = 7
 }
 
 # Tags
