@@ -10,6 +10,7 @@ The resources below will be created:
 - CloudWatch log groups & IAM configuration
 - Deploying a Fluentd for sending logs from pods to CloudWatch
 - Install the Kubernetes dashboard
+- Install metrics-server for HPS (Horizontal Pod Scaling)
 
 If you do not want to deploy the Kubernetes dashboard, you just have to delete 
 the eks-addons.tf file before creating the cluster.
