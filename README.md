@@ -3,8 +3,6 @@
 This project contains a fully fonctional Terraform template for creating a new 
 EKS cluster into an AWS account. 
 
-**Work still in progress**
-
 The resources below will be created:
 
 - A dedicated VPC (with public subnets for load balancers and private subnets for EKS workers)
