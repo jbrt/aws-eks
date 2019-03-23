@@ -10,7 +10,7 @@ The resources below will be created:
 - CloudWatch log groups & IAM configuration
 - Deploying a Fluentd for sending logs from pods to CloudWatch
 - Install the Kubernetes dashboard
-- Install metrics-server for HPS (Horizontal Pod Scaling)
+- Install metrics-server for HPA (Horizontal Pod AutoScaling)
 
 If you do not want to deploy the Kubernetes dashboard, you just have to delete 
 the eks-addons.tf file before creating the cluster.
@@ -42,6 +42,13 @@ bellow:
 - aws-iam-authenticator (cf. https://docs.aws.amazon.com/fr_fr/eks/latest/userguide/install-aws-iam-authenticator.html)
 
 **The aws-iam-authenticator client must be in your PATH variable.**
+
+This template use a Terraform module for lauchning EKS resources and this 
+module will launch as post-actions some CLI commands (for authorising 
+workers to join EKS for instance). These commands needs an Unix shell to runs 
+successfully. 
+
+**So, please use this template on an Unix/Linux/MacOS system.**
 
 ## Launching
 
