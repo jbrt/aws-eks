@@ -19,3 +19,4 @@ Installation of useful packages onto Kubernetes with HELM package manager.
 
 - Kubernetes Dashboard
 - Metrics server (for Horizontal Pod AutoScaling)
+- Cluster-autoscaler (better auto-scaling by updating AWS ASG parameters)
