@@ -1,5 +1,13 @@
 # Install K8s Dashboard
 
+# Finaly, Helm install the Dashboard
+resource "helm_release" "kubernetes-dashboard" {
+  depends_on = ["kubernetes_cluster_role_binding.tiller-rights"]
+  name       = "kubernetes-dashboard"
+  chart      = "stable/kubernetes-dashboard"
+  namespace  = "kube-system"
+}
+
 # Rights for Dashboard
 # Secret
 resource "kubernetes_secret" "dashboard-secret" {
@@ -13,17 +21,8 @@ resource "kubernetes_secret" "dashboard-secret" {
   }
 }
 
-# Service Account
-resource "kubernetes_service_account" "dashboard-account" {
-  metadata {
-    name      = "kubernetes-dashboard"
-    namespace = "kube-system"
-
-    labels = {
-      k8s-app = "kubernetes-dashboard"
-    }
-  }
-}
+# Service Account called kubernetes-dashboard already created by HELM during 
+# the installation of the chart
 
 # Role
 resource "kubernetes_role" "dashboard-role" {
@@ -93,10 +92,29 @@ resource "kubernetes_role_binding" "dashboard-rolebinding" {
   }
 }
 
-# Finaly, Helm install the Dashboard
-resource "helm_release" "kubernetes-dashboard" {
-  depends_on = ["kubernetes_cluster_role_binding.tiller-rights"]
-  name       = "kubernetes-dashboard"
-  chart      = "stable/kubernetes-dashboard"
-  namespace  = "kube-system"
+# Create Admin user for accessing to the DashBoard later (generating Token)
+
+resource "kubernetes_service_account" "admin-account" {
+  metadata {
+    name      = "admin-user"
+    namespace = "kube-system"
+  }
+}
+
+resource "kubernetes_role_binding" "admin-rolebinding" {
+  metadata {
+    name = "admin-user"
+  }
+
+  role_ref {
+    api_group = "rbac.authorization.k8s.io"
+    kind      = "ClusterRole"
+    name      = "cluster-admin"
+  }
+
+  subject {
+    kind      = "ServiceAccount"
+    name      = "admin-user"
+    namespace = "kube-system"
+  }
 }
