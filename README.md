@@ -9,11 +9,12 @@ The resources below will be created:
 - One EKS Cluster and EC2 workers
 - CloudWatch log groups & IAM configuration
 - Deploying a Fluentd for sending logs from pods to CloudWatch
-- Install the Kubernetes dashboard
-- Install metrics-server for HPA (Horizontal Pod AutoScaling)
+- (Optionally) Install the Kubernetes dashboard
+- (Optionally) Install metrics-server for HPA (Horizontal Pod AutoScaling)
+- (Optionally) Install cluster-autoscaler (for better AWS AutoScaling)
 
-If you do not want to deploy the Kubernetes dashboard, you just have to delete 
-the eks-addons.tf file before creating the cluster.
+All optional parts are installed with a separate template. You can install all 
+of them, a subset, or none by deleting the unwanted file.
 
 ## Input variables
 
@@ -60,9 +61,6 @@ $ terraform plan (enter your access keys as requested or create a .tfvars file)
 $ terraform apply
 ```
 
-For accessing to the dashboard you can follow these instructions:
-https://github.com/kubernetes/dashboard
-
 ## Deploy a demo application
 
 Note: the kubeconfig file will be created into the terraform directory after 
@@ -97,12 +95,17 @@ Here: http://a9201a1bdfc6411e68fdc06048bde387-495139964.us-west-1.elb.amazonaws.
 ## Cleanup
 
 **Before launching the destroy step, you have to delete your services.**
+
 If you don't delete your services, you still have ELB (and SG) spawned in your 
 VPC and it's will stuck your destroy process.
 
 ```bash
 $ terraform destroy
 ```
+
+## TODO
+
+Since it's possible to create private endpoints for EKS Cluster, this template will be changed soon 
 
 ## License
 

@@ -20,3 +20,21 @@ Installation of useful packages onto Kubernetes with HELM package manager.
 - Kubernetes Dashboard
 - Metrics server (for Horizontal Pod AutoScaling)
 - Cluster-autoscaler (better auto-scaling by updating AWS ASG parameters)
+
+### Kubernetes Dashboard
+
+Once the Kubernetes Dashboard installed, you can access to this dashboard by typing this commands:
+
+```bash
+kubectl --kubeconfig kubeconfig_<CLUSTER_NAME> proxy
+```
+
+Then, go to this URL:
+
+http://localhost:8001/api/v1/namespaces/kube-system/services/https:kubernetes-dashboard:https/proxy/
+
+You will need to generate a token, you can do this with this following commands:
+
+```bash
+kubectl --kubeconfig kubeconfig_<CLUSTER_NAME> -n kube-system describe secret $(kubectl -n kube-system get secret | grep admin-user | awk '{print $1}')
+```
