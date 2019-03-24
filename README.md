@@ -9,11 +9,12 @@ The resources below will be created:
 - One EKS Cluster and EC2 workers
 - CloudWatch log groups & IAM configuration
 - Deploying a Fluentd for sending logs from pods to CloudWatch
-- Install the Kubernetes dashboard
-- Install metrics-server for HPS (Horizontal Pod Scaling)
+- (Optionally) Install the Kubernetes dashboard
+- (Optionally) Install metrics-server for HPA (Horizontal Pod AutoScaling)
+- (Optionally) Install cluster-autoscaler (for better AWS AutoScaling)
 
-If you do not want to deploy the Kubernetes dashboard, you just have to delete 
-the eks-addons.tf file before creating the cluster.
+All optional parts are installed with a separate template. You can install all 
+of them, a subset, or none by deleting the unwanted file.
 
 ## Input variables
 
@@ -43,6 +44,13 @@ bellow:
 
 **The aws-iam-authenticator client must be in your PATH variable.**
 
+This template use a Terraform module for lauchning EKS resources and this 
+module will launch as post-actions some CLI commands (for authorising 
+workers to join EKS for instance). These commands needs an Unix shell to runs 
+successfully. 
+
+**So, please use this template on an Unix/Linux/MacOS system.**
+
 ## Launching
 
 Clone this Git repository and install dependencies (cf. Prerequisites chapter).
@@ -52,9 +60,6 @@ $ terraform init
 $ terraform plan (enter your access keys as requested or create a .tfvars file)
 $ terraform apply
 ```
-
-For accessing to the dashboard you can follow these instructions:
-https://github.com/kubernetes/dashboard
 
 ## Deploy a demo application
 
@@ -90,12 +95,20 @@ Here: http://a9201a1bdfc6411e68fdc06048bde387-495139964.us-west-1.elb.amazonaws.
 ## Cleanup
 
 **Before launching the destroy step, you have to delete your services.**
+
 If you don't delete your services, you still have ELB (and SG) spawned in your 
 VPC and it's will stuck your destroy process.
 
 ```bash
 $ terraform destroy
 ```
+
+## TODO
+
+Will be added soon:
+
+- Private endpoints for EKS (since it was released recently https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html)
+- Istio
 
 ## License
 
