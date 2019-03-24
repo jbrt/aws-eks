@@ -105,7 +105,10 @@ $ terraform destroy
 
 ## TODO
 
-Since it's possible to create private endpoints for EKS Cluster, this template will be changed soon 
+Will be added soon:
+
+- Private endpoints for EKS (since it was released recently https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html)
+- Istio
 
 ## License
 
