@@ -109,6 +109,7 @@ Will be added soon:
 
 - Private endpoints for EKS (since it was released recently https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html)
 - Istio
+- EKSCtl section
 
 ## License
 
