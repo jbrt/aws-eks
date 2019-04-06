@@ -19,8 +19,13 @@ resource "aws_cloudwatch_log_group" "log_group_systemd" {
 # IAM Policy and attachment
 # Generate a new policy (for authorizing logging into CloudWatch)
 # Attach this policy to the EKS IAM role
+resource "random_string" "postfix" {
+  length = 4
+  special = false
+}
+
 resource "aws_iam_policy" "policy_cloudwatch" {
-  name        = "EKSCloudWatchLogPolicy"
+  name        = "EKSCloudWatchLogPolicy-${random_string.postfix.result}"
   description = "This policy allow EKS workers to send logs into cloudwatch"
 
   policy = <<EOF
