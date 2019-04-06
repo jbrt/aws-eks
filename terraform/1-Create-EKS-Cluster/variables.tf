@@ -28,6 +28,16 @@ variable "cluster_version" {
   default     = "1.12"
 }
 
+variable "public_endpoint" {
+  description = "Enable the public endpoint for EKS cluster"
+  default     = true
+}
+
+variable "private_endpoint" {
+  description = "Enable the private endpoint for EKS cluster"
+  default     = false
+}
+
 variable "instance_size" {
   description = "The size of the instances used by EKS workers ASG"
   type        = "string"

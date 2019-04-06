@@ -6,10 +6,12 @@ module "eks" {
   source  = "terraform-aws-modules/eks/aws"
   version = "2.3.1"
 
-  cluster_version = "${var.cluster_version}"
-  cluster_name    = "${var.cluster_name}"
-  subnets         = "${module.vpc.private_subnets}"
-  vpc_id          = "${module.vpc.vpc_id}"
+  cluster_version                 = "${var.cluster_version}"
+  cluster_name                    = "${var.cluster_name}"
+  subnets                         = "${module.vpc.private_subnets}"
+  vpc_id                          = "${module.vpc.vpc_id}"
+  cluster_endpoint_private_access = "${var.private_endpoint}"
+  cluster_endpoint_public_access  = "${var.public_endpoint}"
 
   worker_groups = [
     {
@@ -31,6 +33,7 @@ resource "aws_autoscaling_policy" "eks-autoscaling-policy" {
   cooldown               = 300
   autoscaling_group_name = "${module.eks.workers_asg_names[0]}"
 }
+
 resource "aws_cloudwatch_metric_alarm" "eks-asg-alarm" {
   alarm_name          = "eks-autoscaling-alarm"
   comparison_operator = "GreaterThanOrEqualToThreshold"
