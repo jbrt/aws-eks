@@ -25,7 +25,17 @@ variable "cluster_name" {
 variable "cluster_version" {
   description = "The version of Kubernetes to use in the EKS cluster"
   type        = "string"
-  default     = "1.11"
+  default     = "1.12"
+}
+
+variable "public_endpoint" {
+  description = "Enable the public endpoint for EKS cluster"
+  default     = true
+}
+
+variable "private_endpoint" {
+  description = "Enable the private endpoint for EKS cluster"
+  default     = false
 }
 
 variable "instance_size" {

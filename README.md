@@ -1,4 +1,4 @@
-# AWS EKS Template
+# AWS EKS Terraform Template
 
 This project contains a fully fonctional Terraform template for creating a new 
 EKS cluster into an AWS account. 
@@ -26,7 +26,9 @@ variables:
 | region                  | AWS region                    | eu-west-1         |
 | availability_zones      | List of AZs to use            | eu-west-1a, b & c |
 | cluster_name            | Name of the cluster EKS       | my-eks-cluster    |
-| cluster_version         | Version of K8s to deploy      | 1.11              |
+| cluster_version         | Version of K8s to deploy      | 1.12              |
+| private_endpoint        | Activate private endpoint     | false             |
+| public_endpoint         | Activate public endpoint      | true              |
 | instance_size           | Family/size of the workers    | t2.medium         |
 | log_retention           | Retention of the logs in days | 7                 |
 
@@ -107,7 +109,7 @@ $ terraform destroy
 
 Will be added soon:
 
-- Private endpoints for EKS (since it was released recently https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html)
+- Sending logs from the EKS Control plane to CloudWatch Logs (as soon as Terraform will support taht feature)
 - Istio
 - EKSCtl section
 
