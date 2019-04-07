@@ -20,7 +20,7 @@ resource "aws_cloudwatch_log_group" "log_group_systemd" {
 # Generate a new policy (for authorizing logging into CloudWatch)
 # Attach this policy to the EKS IAM role
 resource "random_string" "postfix" {
-  length = 4
+  length  = 4
   special = false
 }
 
