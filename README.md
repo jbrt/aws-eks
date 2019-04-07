@@ -26,7 +26,9 @@ variables:
 | region                  | AWS region                    | eu-west-1         |
 | availability_zones      | List of AZs to use            | eu-west-1a, b & c |
 | cluster_name            | Name of the cluster EKS       | my-eks-cluster    |
-| cluster_version         | Version of K8s to deploy      | 1.11              |
+| cluster_version         | Version of K8s to deploy      | 1.12              |
+| private_endpoint        | Activate private endpoint     | false             |
+| public_endpoint         | Activate public endpoint      | true              |
 | instance_size           | Family/size of the workers    | t2.medium         |
 | log_retention           | Retention of the logs in days | 7                 |
 
