@@ -1,4 +1,4 @@
-# AWS EKS Template
+# AWS EKS Terraform Template
 
 This project contains a fully fonctional Terraform template for creating a new 
 EKS cluster into an AWS account. 
@@ -109,7 +109,7 @@ $ terraform destroy
 
 Will be added soon:
 
-- Private endpoints for EKS (since it was released recently https://docs.aws.amazon.com/eks/latest/userguide/cluster-endpoint.html)
+- Sending logs from the EKS Control plane to CloudWatch Logs (as soon as Terraform will support taht feature)
 - Istio
 
 ## License
