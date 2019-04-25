@@ -38,6 +38,12 @@ variable "private_endpoint" {
   default     = false
 }
 
+variable "cluster_enabled_log_types" {
+  description = "List of logs to send to CloudWatch (api, audit, authenticator , controllerManager, scheduler)"
+  type        = "list"
+  default     = []
+}
+
 variable "instance_size" {
   description = "The size of the instances used by EKS workers ASG"
   type        = "string"
