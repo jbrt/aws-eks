@@ -109,7 +109,6 @@ $ terraform destroy
 
 Will be added soon:
 
-- Sending logs from the EKS Control plane to CloudWatch Logs (as soon as Terraform will support taht feature)
 - Istio
 
 ## License
