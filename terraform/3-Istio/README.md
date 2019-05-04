@@ -12,6 +12,8 @@ step.
 
 ## Installation steps
 
+### Istio
+
 First, get the last version of Istio (here, version 1.1.5):
 
 ```bash
@@ -41,3 +43,12 @@ helm --kubeconfig <KUBECONFIG_FILE> install install/kubernetes/helm/istio --name
 ```
 
 ## Uninstallation steps
+
+### Istio
+
+```bash
+$ cd istio-1.1.5
+$ helm --kubeconfig <KUBECONFIG_FILE> delete --purge istio
+$ helm --kubeconfig <KUBECONFIG_FILE> delete --purge istio-init
+$ kubectl --kubeconfig <KUBECONFIG_FILE> delete -f install/kubernetes/helm/istio-init/files
+```
