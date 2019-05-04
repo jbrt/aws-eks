@@ -1,6 +1,3 @@
-variable "access_key" {}
-variable "secret_key" {}
-
 # Region and VPC variables
 
 variable "region" {
