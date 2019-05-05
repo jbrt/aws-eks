@@ -105,6 +105,7 @@ Finally, let's install Istio and Kiali:
 $ helm --kubeconfig <KUBECONFIG_FILE> template \
     --set kiali.enabled=true \
     --set grafana.enabled=true \
+    --set tracing.enabled=true \
     --set "kiali.dashboard.jaegerURL=http://jaeger-query:16686" \
     --set "kiali.dashboard.grafanaURL=http://grafana:3000" \
     install/kubernetes/helm/istio \
@@ -113,12 +114,13 @@ $ helm --kubeconfig <KUBECONFIG_FILE> template \
 
 ### Install a sample application
 
-For testing Istio/Kiali now, we'll deploy a sample application.
+For testing Istio/Kiali now we'll deploy a sample application.
 Still inside the Istio directory, use these commands:
 
 ```bash
 $ kubectl --kubeconfig <KUBECONFIG_FILE> label namespace default istio-injection=enabled
 $ kubectl --kubeconfig <KUBECONFIG_FILE> apply -f samples/bookinfo/platform/kube/bookinfo.yaml
+$ kubectl --kubeconfig <KUBECONFIG_FILE> apply -f samples/bookinfo/networking/destination-rule-all.yaml
 ```
 
 To make the application accessible from the outside:
@@ -137,6 +139,26 @@ $ kubectl --kubeconfig <KUBECONFIG_FILE> -n istio-system port-forward $(kubectl 
 
 Then, you can access the console through this URL: http://localhost:20001/kiali/console
 
+## Accessing Grafana console
+
+For accessing the Grafana console, yan can use this command:
+
+```bash
+$ kubectl --kubeconfig <KUBECONFIG_FILE> -n istio-system port-forward $(kubectl --kubeconfig <KUBECONFIG_FILE> -n istio-system get pod -l app=grafana -o jsonpath='{.items[0].metadata.name}') 3000:3000 &
+```
+
+Then, you can access the console through this URL: http://localhost:3000 (no logon needed)
+
+## Accessing Jaeger console
+
+For accessing the Jaeger console, you can use this command:
+
+```bash
+kubectl --kubeconfig <KUBECONFIG_FILE> port-forward -n istio-system $(kubectl --kubeconfig <KUBECONFIG_FILE> get pod -n istio-system -l app=jaeger -o jsonpath='{.items[0].metadata.name}') 16686:16686
+```
+
+Open your browser to http://localhost:16686.
+
 ## Uninstallation steps
 
 ### Istio
@@ -147,3 +169,5 @@ $ helm --kubeconfig <KUBECONFIG_FILE> delete --purge istio
 $ helm --kubeconfig <KUBECONFIG_FILE> delete --purge istio-init
 $ kubectl --kubeconfig <KUBECONFIG_FILE> delete -f install/kubernetes/helm/istio-init/files
 ```
+### Sample application
+
