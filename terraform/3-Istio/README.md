@@ -42,7 +42,7 @@ Finally, installation of Istio himself:
 helm --kubeconfig <KUBECONFIG_FILE> install install/kubernetes/helm/istio --name istio --namespace istio-system
 ```
 
-### Istio (with Kiali integration)
+### Istio (with Kiali, Grafana & Jaeger integration)
 
 First, get the last version of Istio (here, version 1.1.5):
 
@@ -104,6 +104,7 @@ Finally, let's install Istio and Kiali:
 ```bash
 $ helm --kubeconfig <KUBECONFIG_FILE> template \
     --set kiali.enabled=true \
+    --set grafana.enabled=true \
     --set "kiali.dashboard.jaegerURL=http://jaeger-query:16686" \
     --set "kiali.dashboard.grafanaURL=http://grafana:3000" \
     install/kubernetes/helm/istio \
@@ -128,7 +129,13 @@ $ kubectl --kubeconfig <KUBECONFIG_FILE> apply -f samples/bookinfo/networking/bo
 
 ## Accessing Kiali console
 
+For assessing the Kiali console, you can use the proxy feature of the kubectl command like this:
 
+```bash
+$ kubectl --kubeconfig <KUBECONFIG_FILE> -n istio-system port-forward $(kubectl --kubeconfig <KUBECONFIG_FILE> -n istio-system get pod -l app=kiali -o jsonpath='{.items[0].metadata.name}') 20001:20001
+```
+
+Then, you can access the console through this URL: http://localhost:20001/kiali/console
 
 ## Uninstallation steps
 
