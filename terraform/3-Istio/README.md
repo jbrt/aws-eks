@@ -110,6 +110,24 @@ $ helm --kubeconfig <KUBECONFIG_FILE> template \
     --name istio --namespace istio-system | kubectl --kubeconfig <KUBECONFIG_FILE> apply -f -
 ```
 
+### Install a sample application
+
+For testing Istio/Kiali now, we'll deploy a sample application.
+Still inside the Istio directory, use these commands:
+
+```bash
+$ kubectl --kubeconfig <KUBECONFIG_FILE> label namespace default istio-injection=enabled
+$ kubectl --kubeconfig <KUBECONFIG_FILE> apply -f samples/bookinfo/platform/kube/bookinfo.yaml
+```
+
+To make the application accessible from the outside:
+
+```bash
+$ kubectl --kubeconfig <KUBECONFIG_FILE> apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
+```
+
+## Accessing Kiali console
+
 
 
 ## Uninstallation steps
