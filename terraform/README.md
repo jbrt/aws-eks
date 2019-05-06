@@ -38,6 +38,10 @@ You will need to generate a token, you can do this with this following commands:
 ```bash
 kubectl --kubeconfig kubeconfig_<CLUSTER_NAME> -n kube-system describe secret $(kubectl -n kube-system get secret | grep admin-user | awk '{print $1}')
 ```
+
 ## 3-Istio
+
+- Installation of Istio
+- Installation de Kiali/Jaegger
 
 **Work in progress**

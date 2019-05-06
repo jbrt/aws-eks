@@ -9,9 +9,12 @@ The resources below will be created:
 - One EKS Cluster and EC2 workers
 - CloudWatch log groups & IAM configuration
 - Deploying a Fluentd for sending logs from pods to CloudWatch
-- (Optionally) Install the Kubernetes dashboard
-- (Optionally) Install metrics-server for HPA (Horizontal Pod AutoScaling)
-- (Optionally) Install cluster-autoscaler (for better AWS AutoScaling)
+
+Optionally:
+- Install the Kubernetes dashboard
+- Install metrics-server for HPA (Horizontal Pod AutoScaling)
+- Install cluster-autoscaler (for better AWS AutoScaling)
+- Install Istio/Kiali/Jaegger tools
 
 All optional parts are installed with a separate template. You can install all 
 of them, a subset, or none by deleting the unwanted file.
@@ -109,7 +112,7 @@ $ terraform destroy
 
 Will be added soon:
 
-- Istio
+- Istio (Work in progress)
 
 ## License
 
