@@ -9,9 +9,12 @@ The resources below will be created:
 - One EKS Cluster and EC2 workers
 - CloudWatch log groups & IAM configuration
 - Deploying a Fluentd for sending logs from pods to CloudWatch
-- (Optionally) Install the Kubernetes dashboard
-- (Optionally) Install metrics-server for HPA (Horizontal Pod AutoScaling)
-- (Optionally) Install cluster-autoscaler (for better AWS AutoScaling)
+
+Optionally:
+- Install the Kubernetes dashboard
+- Install metrics-server for HPA (Horizontal Pod AutoScaling)
+- Install cluster-autoscaler (for better AWS AutoScaling)
+- Install Istio/Kiali/Jaegger tools
 
 All optional parts are installed with a separate template. You can install all 
 of them, a subset, or none by deleting the unwanted file.
@@ -21,18 +24,19 @@ of them, a subset, or none by deleting the unwanted file.
 You can custom the installation of that cluster with the following input 
 variables:
 
-| Variable                | Purpose of that variable      | Default values    |
-|-------------------------|-------------------------------|-------------------|
-| region                  | AWS region                    | eu-west-1         |
-| availability_zones      | List of AZs to use            | eu-west-1a, b & c |
-| cluster_name            | Name of the cluster EKS       | my-eks-cluster    |
-| cluster_version         | Version of K8s to deploy      | 1.12              |
-| private_endpoint        | Activate private endpoint     | false             |
-| public_endpoint         | Activate public endpoint      | true              |
-| instance_size           | Family/size of the workers    | t2.medium         |
-| log_retention           | Retention of the logs in days | 7                 |
+| Variable                  | Purpose of that variable      | Default values    |
+|---------------------------|-------------------------------|-------------------|
+| region                    | AWS region                    | eu-west-1         |
+| availability_zones        | List of AZs to use            | eu-west-1a, b & c |
+| cluster_name              | Name of the cluster EKS       | my-eks-cluster    |
+| cluster_version           | Version of K8s to deploy      | 1.12              |
+| cluster_enabled_log_types | Logs to send (CloudWatch)     | []                |
+| private_endpoint          | Activate private endpoint     | false             |
+| public_endpoint           | Activate public endpoint      | true              |
+| instance_size             | Family/size of the workers    | t2.medium         |
+| log_retention             | Retention of the logs in days | 7                 |
 
-## Schema
+## Architecture
 
 ![eks](eks-diagram.png)
 
@@ -62,6 +66,14 @@ $ terraform init
 $ terraform plan (enter your access keys as requested or create a .tfvars file)
 $ terraform apply
 ```
+
+## Repository organization
+
+This repository is split into several parts:
+
+1. (Terraform) The first part will create a standalone EKS cluster
+2. (Terraform) The second part contains templates for deploying Dashboard, metrics-server, autoscaler (with Terraform Helm provider)
+3. (Documentation) Just a documentation for deploying Istio/Kiali/Jaeger into your cluster
 
 ## Deploy a demo application
 
@@ -109,8 +121,7 @@ $ terraform destroy
 
 Will be added soon:
 
-- Istio
-- EKSCtl section
+- Istio (Work in progress)
 
 ## License
 
