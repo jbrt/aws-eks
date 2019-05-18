@@ -20,6 +20,7 @@ module "eks" {
       asg_min_size         = 3
       asg_desired_capacity = 3
       asg_max_size         = 6
+      autoscaling_enabled  = true
     },
   ]
 
