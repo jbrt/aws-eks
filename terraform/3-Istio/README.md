@@ -83,7 +83,6 @@ Then, let's create the secret:
 
 ```bash
 $ NAMESPACE=istio-system
-$ kubectl --kubeconfig <KUBECONFIG_FILE> create namespace $NAMESPACE
 $ cat <<EOF | kubectl --kubeconfig <KUBECONFIG_FILE> apply -f -
 apiVersion: v1
 kind: Secret
@@ -99,13 +98,14 @@ data:
 EOF
 ```
 
-Finally, let's install Istio and Kiali:
+Finally, let's install Istio, Kiali, Grafana & Jaeger:
 
 ```bash
 $ helm --kubeconfig <KUBECONFIG_FILE> template \
     --set kiali.enabled=true \
     --set grafana.enabled=true \
     --set tracing.enabled=true \
+    --set tracing.ingress.enabled=true \
     --set "kiali.dashboard.jaegerURL=http://jaeger-query:16686" \
     --set "kiali.dashboard.grafanaURL=http://grafana:3000" \
     install/kubernetes/helm/istio \
@@ -129,7 +129,9 @@ To make the application accessible from the outside:
 $ kubectl --kubeconfig <KUBECONFIG_FILE> apply -f samples/bookinfo/networking/bookinfo-gateway.yaml
 ```
 
-## Accessing Kiali console
+## Accessing consoles
+
+### Accessing Kiali console
 
 For assessing the Kiali console, you can use the proxy feature of the kubectl command like this:
 
@@ -139,7 +141,11 @@ $ kubectl --kubeconfig <KUBECONFIG_FILE> -n istio-system port-forward $(kubectl 
 
 Then, you can access the console through this URL: http://localhost:20001/kiali/console
 
-## Accessing Grafana console
+Here is an example of a Kiali service mesh visualization:
+
+![versioned](images/kiali_versioned_app.png)
+
+### Accessing Grafana console
 
 For accessing the Grafana console, yan can use this command:
 
@@ -149,7 +155,7 @@ $ kubectl --kubeconfig <KUBECONFIG_FILE> -n istio-system port-forward $(kubectl 
 
 Then, you can access the console through this URL: http://localhost:3000 (no logon needed)
 
-## Accessing Jaeger console
+### Accessing Jaeger console
 
 For accessing the Jaeger console, you can use this command:
 
@@ -161,13 +167,28 @@ Open your browser to http://localhost:16686.
 
 ## Uninstallation steps
 
+### Sample application
+
+Still into the Istio directory use these commands:
+
+```bash
+$ kubectl --kubeconfig <KUBECONFIG_FILE> delete -f samples/bookinfo/networking/bookinfo-gateway.yaml
+$ kubectl --kubeconfig <KUBECONFIG_FILE> delete -f samples/bookinfo/networking/destination-rule-all.yaml
+$ kubectl --kubeconfig <KUBECONFIG_FILE> delete -f samples/bookinfo/platform/kube/bookinfo.yaml
+```
+
 ### Istio
 
 ```bash
 $ cd istio-1.1.5
-$ helm --kubeconfig <KUBECONFIG_FILE> delete --purge istio
-$ helm --kubeconfig <KUBECONFIG_FILE> delete --purge istio-init
+$ helm --kubeconfig <KUBECONFIG_FILE> template \
+    --set kiali.enabled=true \
+    --set grafana.enabled=true \
+    --set tracing.enabled=true \
+    --set tracing.ingress.enabled=true \
+    --set "kiali.dashboard.jaegerURL=http://jaeger-query:16686" \
+    --set "kiali.dashboard.grafanaURL=http://grafana:3000" \
+    install/kubernetes/helm/istio \
+    --name istio --namespace istio-system | kubectl --kubeconfig <KUBECONFIG_FILE> delete -f -
 $ kubectl --kubeconfig <KUBECONFIG_FILE> delete -f install/kubernetes/helm/istio-init/files
 ```
-### Sample application
-

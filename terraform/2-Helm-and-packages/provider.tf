@@ -1,37 +1,43 @@
-
 provider "kubernetes" {
+  version     = "1.6.2"
   config_path = "${path.module}/../1-Create-EKS-Cluster/kubeconfig_${var.cluster_name}"
 }
 
-provider "helm" {
-    kubernetes {
-        config_path = "${path.module}/../1-Create-EKS-Cluster/kubeconfig_${var.cluster_name}"
-    }
+resource "kubernetes_service_account" "tiller" {
+  metadata {
+    name      = "tiller"
+    namespace = "kube-system"
+  }
 }
 
-# Rights for Tiller
 resource "kubernetes_cluster_role_binding" "tiller-rights" {
-    metadata {
-        name = "add-on-cluster-admin"
-    }
-    role_ref {
-        api_group = "rbac.authorization.k8s.io"
-        kind = "ClusterRole"
-        name = "cluster-admin"
-    }
-    subject {
-        kind = "User"
-        name = "admin"
-        api_group = "rbac.authorization.k8s.io"
-    }
-    subject {
-        kind = "ServiceAccount"
-        name = "default"
-        namespace = "kube-system"
-    }
-    subject {
-        kind = "Group"
-        name = "system:masters"
-        api_group = "rbac.authorization.k8s.io"
-    }
+  metadata {
+    name = "tiller"
+  }
+
+  role_ref {
+    api_group = "rbac.authorization.k8s.io"
+    kind      = "ClusterRole"
+    name      = "cluster-admin"
+  }
+
+  # api_group has to be empty because of a bug:
+  # https://github.com/terraform-providers/terraform-provider-kubernetes/issues/204
+  subject {
+    api_group = ""
+    kind      = "ServiceAccount"
+    name      = "tiller"
+    namespace = "kube-system"
+  }
+}
+
+provider "helm" {
+  version         = "0.9.1"
+  install_tiller  = true
+  service_account = "tiller"
+  namespace       = "kube-system"
+
+  kubernetes {
+    config_path = "${path.module}/../1-Create-EKS-Cluster/kubeconfig_${var.cluster_name}"
+  }
 }
