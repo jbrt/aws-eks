@@ -47,6 +47,18 @@ variable "instance_size" {
   default     = "t2.medium"
 }
 
+variable "key_pair" {
+  description = "Key pair used for the instance workers"
+  type        = "string"
+  default     = ""
+}
+
+variable "encrypted_volumes" {
+  description = "Encrypt EBS volumes for EKS workers"
+  default     = false
+}
+
+
 # CloudWatch variables
 
 variable "log_retention" {
