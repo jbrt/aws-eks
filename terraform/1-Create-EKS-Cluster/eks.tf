@@ -26,6 +26,7 @@ module "eks" {
       asg_max_size         = 6
       key_name             = "${var.key_pair}"
       root_encrypted       = true
+      root_kms_key_id      = "${var.kms_key_id}"
     },
   ]
 
