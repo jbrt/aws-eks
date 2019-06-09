@@ -28,12 +28,18 @@ variables:
 |---------------------------|-------------------------------|-------------------|
 | region                    | AWS region                    | eu-west-1         |
 | availability_zones        | List of AZs to use            | eu-west-1a, b & c |
+| vpc_cidr                  | CIDR used by the VPC          | 10.0.0.0/16       |
+| public_subnets            | Public subnets                | subnet 1, 2, 3    |
+| private_subnets           | Private subnets               | subnet 10, 20, 30 |
 | cluster_name              | Name of the cluster EKS       | my-eks-cluster    |
 | cluster_version           | Version of K8s to deploy      | 1.12              |
 | cluster_enabled_log_types | Logs to send (CloudWatch)     | []                |
 | private_endpoint          | Activate private endpoint     | false             |
 | public_endpoint           | Activate public endpoint      | true              |
 | instance_size             | Family/size of the workers    | t2.medium         |
+| key_pair                  | Key pair name for the workers | ""                |
+| encrypted_volumes         | Activating EBS encrypting     | false             |
+| kms_key_id                | ID of the KMS key ID          | ""                |
 | log_retention             | Retention of the logs in days | 7                 |
 
 ## Architecture
