@@ -70,7 +70,7 @@ variable "key_pair" {
 
 variable "encrypted_volumes" {
   description = "Encrypt EBS volumes for EKS workers"
-  default     = false
+  default     = true
 }
 
 variable "kms_key_id" {
