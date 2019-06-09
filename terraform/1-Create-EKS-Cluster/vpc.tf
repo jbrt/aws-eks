@@ -14,7 +14,7 @@ module "vpc" {
   enable_dns_support   = true
   enable_dns_hostnames = true
   enable_nat_gateway   = true
-  single_nat_gateway   = true
+  single_nat_gateway   = false
 
   tags                = "${local.tags}"
   vpc_tags            = "${merge(local.tags, map("kubernetes.io/cluster/${var.cluster_name}", "shared"))}"
