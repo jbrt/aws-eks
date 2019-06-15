@@ -17,6 +17,6 @@ resource "local_file" "cluster-autoscaler" {
   depends_on = ["helm_release.metrics-server"]
 
   provisioner "local-exec" {
-    command = "kubectl --kubeconfig ${path.module}/../1-Create-EKS-Cluster/kubeconfig_${var.cluster_name} apply -f ${path.module}/templates/cluster-autoscaler.yml"
+    command = "kubectl --kubeconfig ${path.module}/../../1-Create-EKS-Cluster/kubeconfig_${var.cluster_name} apply -f ${path.module}/templates/cluster-autoscaler.yml"
   }
 }
