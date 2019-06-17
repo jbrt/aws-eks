@@ -5,3 +5,7 @@ variable "cluster_name" {
   type        = "string"
   default     = "my-eks-cluster"
 }
+
+variable "region" {
+  default = "eu-west-1"
+}
