@@ -12,6 +12,101 @@ step.
 
 ## Installation steps
 
+### Istio
+
+#### Getting Istio Helm Repository URL
+
+First, get the latest version of Helm Istio repository by using this URL:
+http://istio.io/charts
+
+You'll redirect to the right place, for instance here:
+https://gcsweb.istio.io/gcs/istio-release/releases/1.2.0/charts/ 
+
+This URL will be used as Helm repository.
+
+#### Installing Helm Tiller (if not done before)
+
+If the Helm tiller is not installed yet, you have to create the dedicated
+service account:
+
+```bash
+$ kubectl --kubeconfig <KUBECONFIG> apply -f tiller-rbac.yml
+```
+
+Then, installing the Tiller:
+
+```bash
+$ helm init --kubeconfig <KUBECONFIG> init --tiller-namespace kube-system --service-account tiller
+```
+
+#### Adding Istio repository
+
+Istio Helm repo could be added like this:
+
+```bash
+$ helm repo add istio https://gcsweb.istio.io/gcs/istio-release/releases/1.2.0/charts/
+$ helm repo update
+```
+
+#### Prepare the Istio installation (Istio CRD)
+
+```bash
+$ helm --kubeconfig <KUBECONFIG> install istio/istio-init --name istio-init
+```
+
+#### Istio installation 
+
+Secret creation (for Kiali creation).
+
+If you're using Bash shell:
+
+```bash
+$ KIALI_USERNAME=$(read -p 'Kiali Username: ' uval && echo -n $uval | base64)
+$ KIALI_PASSPHRASE=$(read -sp 'Kiali Passphrase: ' pval && echo -n $pval | base64)
+```
+
+If you're using ZSH shell:
+```bash
+KIALI_USERNAME=$(read '?Kiali Username: ' uval && echo -n $uval | base64)
+KIALI_PASSPHRASE=$(read -s "?Kiali Passphrase: " pval && echo -n $pval | base64)
+```
+
+Then, let's create the secret:
+
+```bash
+$ NAMESPACE=istio-system
+$ cat <<EOF | kubectl --kubeconfig <KUBECONFIG_FILE> apply -f -
+apiVersion: v1
+kind: Secret
+metadata:
+  name: kiali
+  namespace: $NAMESPACE
+  labels:
+    app: kiali
+type: Opaque
+data:
+  username: $KIALI_USERNAME
+  passphrase: $KIALI_PASSPHRASE
+EOF
+```
+
+Finally, let's install Istio, Kiali, Grafana & Jaeger:
+
+```bash
+$ helm --kubeconfig <KUBECONFIG_FILE> install \
+    --set kiali.enabled=true \
+    --set grafana.enabled=true \
+    --set tracing.enabled=true \
+    --set tracing.ingress.enabled=true \
+    --set "kiali.dashboard.jaegerURL=http://jaeger-query:16686" \
+    --set "kiali.dashboard.grafanaURL=http://grafana:3000" \
+    istio/istio --name istio --namespace istio
+```
+
+
+
+
+
 ### Istio (without Kiali integration)
 
 First, get the last version of Istio (here, version 1.1.5):
