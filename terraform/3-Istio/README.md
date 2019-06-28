@@ -103,113 +103,12 @@ $ helm --kubeconfig <KUBECONFIG_FILE> install \
     istio/istio --name istio --namespace istio
 ```
 
-
-
-
-
-### Istio (without Kiali integration)
-
-First, get the last version of Istio (here, version 1.1.5):
-
-```bash
-$ curl -L https://git.io/getLatestIstio | ISTIO_VERSION=1.1.5 sh -
-$ cd istio-1.1.5
-```
-
-Then, we have to create the needed role service account for Tiller and install 
-it:
-
-```bash
-$ kubectl --kubeconfig <KUBECONFIG_FILE> apply -f install/kubernetes/helm/helm-service-account.yaml
-$ helm --kubeconfig <KUBECONFIG_FILE> init --service-account tiller
-```
-
-Install the istio-init chart to bootstrap all the Istio’s CRDs:
-
-```bash
-helm --kubeconfig <KUBECONFIG_FILE> install install/kubernetes/helm/istio-init --name istio-init --namespace istio-system
-```
-
-It can take a while for installing all the needed CRDs (58 CRDs).
-Finally, installation of Istio himself:
-
-```bash
-helm --kubeconfig <KUBECONFIG_FILE> install install/kubernetes/helm/istio --name istio --namespace istio-system
-```
-
-### Istio (with Kiali, Grafana & Jaeger integration)
-
-First, get the last version of Istio (here, version 1.1.5):
-
-```bash
-$ curl -L https://git.io/getLatestIstio | ISTIO_VERSION=1.1.5 sh -
-$ cd istio-1.1.5
-```
-
-Then, we have to create the needed role service account for Tiller and install 
-it:
-
-```bash
-$ kubectl --kubeconfig <KUBECONFIG_FILE> apply -f install/kubernetes/helm/helm-service-account.yaml
-$ helm --kubeconfig <KUBECONFIG_FILE> init --service-account tiller
-```
-
-Install the istio-init chart to bootstrap all the Istio’s CRDs:
-
-```bash
-helm --kubeconfig <KUBECONFIG_FILE> install install/kubernetes/helm/istio-init --name istio-init --namespace istio-system
-```
-
-Secret creation (for Kiali creation).
-If you're using Bash shell:
-
-```bash
-$ KIALI_USERNAME=$(read -p 'Kiali Username: ' uval && echo -n $uval | base64)
-$ KIALI_PASSPHRASE=$(read -sp 'Kiali Passphrase: ' pval && echo -n $pval | base64)
-```
-
-If you're using ZSH shell:
-```bash
-KIALI_USERNAME=$(read '?Kiali Username: ' uval && echo -n $uval | base64)
-KIALI_PASSPHRASE=$(read -s "?Kiali Passphrase: " pval && echo -n $pval | base64)
-```
-
-Then, let's create the secret:
-
-```bash
-$ NAMESPACE=istio-system
-$ cat <<EOF | kubectl --kubeconfig <KUBECONFIG_FILE> apply -f -
-apiVersion: v1
-kind: Secret
-metadata:
-  name: kiali
-  namespace: $NAMESPACE
-  labels:
-    app: kiali
-type: Opaque
-data:
-  username: $KIALI_USERNAME
-  passphrase: $KIALI_PASSPHRASE
-EOF
-```
-
-Finally, let's install Istio, Kiali, Grafana & Jaeger:
-
-```bash
-$ helm --kubeconfig <KUBECONFIG_FILE> template \
-    --set kiali.enabled=true \
-    --set grafana.enabled=true \
-    --set tracing.enabled=true \
-    --set tracing.ingress.enabled=true \
-    --set "kiali.dashboard.jaegerURL=http://jaeger-query:16686" \
-    --set "kiali.dashboard.grafanaURL=http://grafana:3000" \
-    install/kubernetes/helm/istio \
-    --name istio --namespace istio-system | kubectl --kubeconfig <KUBECONFIG_FILE> apply -f -
-```
-
 ### Install a sample application
 
-For testing Istio/Kiali now we'll deploy a sample application.
+For testing Istio/Kiali now we'll deploy a sample application (this sample 
+application is located into the Istio source code, so you have to download it 
+before going futher).
+
 Still inside the Istio directory, use these commands:
 
 ```bash
@@ -275,15 +174,6 @@ $ kubectl --kubeconfig <KUBECONFIG_FILE> delete -f samples/bookinfo/platform/kub
 ### Istio
 
 ```bash
-$ cd istio-1.1.5
-$ helm --kubeconfig <KUBECONFIG_FILE> template \
-    --set kiali.enabled=true \
-    --set grafana.enabled=true \
-    --set tracing.enabled=true \
-    --set tracing.ingress.enabled=true \
-    --set "kiali.dashboard.jaegerURL=http://jaeger-query:16686" \
-    --set "kiali.dashboard.grafanaURL=http://grafana:3000" \
-    install/kubernetes/helm/istio \
-    --name istio --namespace istio-system | kubectl --kubeconfig <KUBECONFIG_FILE> delete -f -
-$ kubectl --kubeconfig <KUBECONFIG_FILE> delete -f install/kubernetes/helm/istio-init/files
+$ helm --kubeconfig <KUBECONFIG_FILE> delete --name istio --namespace istio --purge 
+$ helm --kubeconfig <KUBECONFIG_FILE> delete --name istio-init --namespace istio --purge 
 ```
