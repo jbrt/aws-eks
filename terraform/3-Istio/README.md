@@ -36,7 +36,7 @@ $ kubectl --kubeconfig <KUBECONFIG> apply -f tiller-rbac.yml
 Then, installing the Tiller:
 
 ```bash
-$ helm init --kubeconfig <KUBECONFIG> init --tiller-namespace kube-system --service-account tiller
+$ helm init --kubeconfig <KUBECONFIG> --tiller-namespace kube-system --service-account tiller
 ```
 
 #### Adding Istio repository
@@ -51,7 +51,7 @@ $ helm repo update
 #### Prepare the Istio installation (Istio CRD)
 
 ```bash
-$ helm --kubeconfig <KUBECONFIG> install istio/istio-init --name istio-init
+$ helm --kubeconfig <KUBECONFIG> install istio/istio-init --name istio-init --namespace istio
 ```
 
 #### Istio installation 
@@ -74,7 +74,7 @@ KIALI_PASSPHRASE=$(read -s "?Kiali Passphrase: " pval && echo -n $pval | base64)
 Then, let's create the secret:
 
 ```bash
-$ NAMESPACE=istio-system
+$ NAMESPACE=istio
 $ cat <<EOF | kubectl --kubeconfig <KUBECONFIG_FILE> apply -f -
 apiVersion: v1
 kind: Secret
