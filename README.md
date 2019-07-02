@@ -127,7 +127,7 @@ $ terraform destroy
 
 Will be added soon:
 
-- Istio (Work in progress)
+- Linkerd (Work in progress)
 
 ## License
 
