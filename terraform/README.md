@@ -19,7 +19,7 @@ Installation of useful packages onto Kubernetes with HELM package manager.
 
 - Kubernetes Dashboard
 - Metrics server (for Horizontal Pod AutoScaling)
-- Cluster-autoscaler (better auto-scaling by updating AWS ASG parameters) **Will be moved to Helm sooner**
+- Cluster-autoscaler (better auto-scaling by updating AWS ASG parameters)
 
 ### Kubernetes Dashboard
 
@@ -44,4 +44,3 @@ kubectl --kubeconfig kubeconfig_<CLUSTER_NAME> -n kube-system describe secret $(
 - Installation of Istio
 - Installation de Kiali/Jaegger
 
-**Work in progress**
