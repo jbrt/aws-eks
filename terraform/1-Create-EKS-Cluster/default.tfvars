@@ -12,6 +12,11 @@ cluster_version           = "1.12"
 public_endpoint           = true
 private_endpoint          = false
 cluster_enabled_log_types = []
+
+# EKS Workers
 instance_size             = "t2.medium"
 encrypted_volumes         = true
 log_retention             = 3
+asg_min                   = 3
+asg_desired               = 3
+asg_max                   = 6

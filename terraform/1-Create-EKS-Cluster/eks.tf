@@ -21,9 +21,9 @@ module "eks" {
       name                 = "worker-group-1"
       instance_type        = "${var.instance_size}"
       autoscaling_enabled  = true
-      asg_desired_capacity = 3
-      asg_min_size         = 2
-      asg_max_size         = 6
+      asg_desired_capacity = "${var.asg_desired}"
+      asg_min_size         = "${var.asg_min}"
+      asg_max_size         = "${var.asg_max}"
       key_name             = "${var.key_pair}"
       root_encrypted       = true
       root_kms_key_id      = "${var.kms_key_id}"

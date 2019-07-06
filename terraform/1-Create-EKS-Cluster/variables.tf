@@ -33,6 +33,8 @@ variable "cluster_enabled_log_types" {
   type        = "list"
 }
 
+# EKS Workers variables
+
 variable "instance_size" {
   description = "The size of the instances used by EKS workers ASG"
   type        = "string"
@@ -52,6 +54,21 @@ variable "kms_key_id" {
   description = "KMS Key ID to use for encrypting volumes. If empty the default EBS key will be used."
   type        = "string"
   default     = ""
+}
+
+variable "asg_min" {
+  description = "Minimal number of instances"
+  default     = 2
+}
+
+variable "asg_desired" {
+  description = "Desired number of instances"
+  default     = 3
+}
+
+variable "asg_max" {
+  description = "Minimal number of instances"
+  default     = 6
 }
 
 # CloudWatch variables
