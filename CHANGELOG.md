@@ -1,5 +1,13 @@
 # Changelog
 
+**Terraform 0.12 compatible, tags >= 3.x.x**
+**Terraform 0.11 compatible, tags <= 2.x.x**
+
+## v2.7.0 (last Terraform 0.11 compatible version)
+
+- Moving default values into a tfvars file
+- Adding variables for EKS workers ASG
+
 ## v2.6.0
 
 - Refactoring step 2 and Helm usage (with Terraform provider or not)
