@@ -4,21 +4,8 @@ variable "region" {
   description = "Region where all AWS objects will be created"
 }
 
-variable "availability_zones" {
-  description = "Which AZs will be used"
-  type        = "list"
-}
-
 variable "vpc_cidr" {
   description = "CIDR of this VPC"
-}
-
-variable "public_subnets" {
-  type = "list"
-}
-
-variable "private_subnets" {
-  type = "list"
 }
 
 # EKS Cluster variables
@@ -54,6 +41,7 @@ variable "instance_size" {
 variable "key_pair" {
   description = "Key pair used for the instance workers"
   type        = "string"
+  default     = ""
 }
 
 variable "encrypted_volumes" {
@@ -62,6 +50,8 @@ variable "encrypted_volumes" {
 
 variable "kms_key_id" {
   description = "KMS Key ID to use for encrypting volumes. If empty the default EBS key will be used."
+  type        = "string"
+  default     = ""
 }
 
 # CloudWatch variables
@@ -70,13 +60,18 @@ variable "log_retention" {
   description = "Number of days for log retention"
 }
 
-# Tags
+# Network & Tags
 
 locals {
   tags = {
     Terraform   = "true"
     Environment = "dev"
   }
+
+  # Will create AZ a,b,c
+  availability_zones = ["${var.region}a", "${var.region}b", "${var.region}c"]
+  public_subnets     = ["${cidrsubnet(var.vpc_cidr, 8, 1)}", "${cidrsubnet(var.vpc_cidr, 8, 2)}", "${cidrsubnet(var.vpc_cidr, 8, 3)}"]
+  private_subnets    = ["${cidrsubnet(var.vpc_cidr, 8, 10)}", "${cidrsubnet(var.vpc_cidr, 8, 20)}", "${cidrsubnet(var.vpc_cidr, 8, 30)}"]
 
   log_group_containers = "/eks/${var.cluster_name}/containers"
   log_group_systemd    = "/eks/${var.cluster_name}/systemd"

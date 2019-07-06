@@ -5,11 +5,11 @@ module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "1.53.0"
 
-  name            = "vpc-${var.cluster_name}"
+  name            = "vpc-${var.cluster_name}-${terraform.workspace}"
   cidr            = "${var.vpc_cidr}"
-  azs             = "${var.availability_zones}"
-  public_subnets  = "${var.public_subnets}"
-  private_subnets = "${var.private_subnets}"
+  azs             = "${local.availability_zones}"
+  public_subnets  = "${local.public_subnets}"
+  private_subnets = "${local.private_subnets}"
 
   enable_dns_support   = true
   enable_dns_hostnames = true

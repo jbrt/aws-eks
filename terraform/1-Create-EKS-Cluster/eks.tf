@@ -7,7 +7,7 @@ module "eks" {
   version = "4.0.2"
 
   cluster_version                    = "${var.cluster_version}"
-  cluster_name                       = "${var.cluster_name}"
+  cluster_name                       = "${var.cluster_name}-${terraform.workspace}"
   subnets                            = "${module.vpc.private_subnets}"
   vpc_id                             = "${module.vpc.vpc_id}"
   cluster_enabled_log_types          = "${var.cluster_enabled_log_types}"
