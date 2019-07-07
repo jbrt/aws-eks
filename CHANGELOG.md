@@ -3,6 +3,10 @@
 **Terraform 0.12 compatible, tags >= 3.x.x**
 **Terraform 0.11 compatible, tags <= 2.x.x**
 
+## v3.0.0
+
+- Upgrade Terraform files to version 0.12
+
 ## v2.7.1 
 
 - Fixing a bug with the kubeconfig file name
