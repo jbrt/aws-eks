@@ -2,10 +2,11 @@
 
 variable "cluster_name" {
   description = "The name of the EKS cluster"
-  type        = "string"
+  type        = string
   default     = "my-eks-cluster"
 }
 
 variable "region" {
   default = "eu-west-1"
 }
+

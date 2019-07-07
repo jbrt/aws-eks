@@ -2,7 +2,7 @@
 
 # Finaly, Helm install the Dashboard
 resource "helm_release" "kubernetes-dashboard" {
-  depends_on = ["kubernetes_cluster_role_binding.tiller-rights"]
+  depends_on = [kubernetes_cluster_role_binding.tiller-rights]
   name       = "kubernetes-dashboard"
   chart      = "stable/kubernetes-dashboard"
   namespace  = "kube-system"
@@ -118,3 +118,4 @@ resource "kubernetes_role_binding" "admin-rolebinding" {
     namespace = "kube-system"
   }
 }
+

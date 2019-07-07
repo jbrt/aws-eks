@@ -1,7 +1,7 @@
 resource "helm_release" "cluster-autoscaler" {
-  name  = "cluster-autoscaler"
-  chart = "stable/cluster-autoscaler"
-  namespace  = "kube-system"
+  name      = "cluster-autoscaler"
+  chart     = "stable/cluster-autoscaler"
+  namespace = "kube-system"
 
   set {
     name  = "rbac.create=true"
@@ -20,12 +20,12 @@ resource "helm_release" "cluster-autoscaler" {
 
   set {
     name  = "awsRegion"
-    value = "${var.region}"
+    value = var.region
   }
 
   set {
     name  = "autoDiscovery.clusterName"
-    value = "${var.cluster_name}"
+    value = var.cluster_name
   }
 
   set {
@@ -33,3 +33,4 @@ resource "helm_release" "cluster-autoscaler" {
     value = "true"
   }
 }
+
