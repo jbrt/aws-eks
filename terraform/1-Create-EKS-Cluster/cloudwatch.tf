@@ -73,6 +73,6 @@ resource "local_file" "fluentd_config" {
   depends_on = ["module.eks"]
 
   provisioner "local-exec" {
-    command = "kubectl --kubeconfig ${path.module}/kubeconfig_${var.cluster_name} apply -f ${path.module}/files/fluentd.yml"
+    command = "kubectl --kubeconfig ${path.module}/kubeconfig_${var.cluster_name}-${terraform.workspace} apply -f ${path.module}/files/fluentd.yml"
   }
 }

@@ -1,6 +1,6 @@
 provider "kubernetes" {
   version     = "1.6.2"
-  config_path = "${path.module}/../../1-Create-EKS-Cluster/kubeconfig_${var.cluster_name}"
+  config_path = "${path.module}/../../1-Create-EKS-Cluster/kubeconfig_${var.cluster_name}-${terraform.workspace}"
 }
 
 resource "kubernetes_service_account" "tiller" {
@@ -38,6 +38,6 @@ provider "helm" {
   namespace       = "kube-system"
 
   kubernetes {
-    config_path = "${path.module}/../../1-Create-EKS-Cluster/kubeconfig_${var.cluster_name}"
+    config_path = "${path.module}/../../1-Create-EKS-Cluster/kubeconfig_${var.cluster_name}-${terraform.workspace}"
   }
 }
