@@ -123,12 +123,6 @@ VPC and it's will stuck your destroy process.
 $ terraform destroy
 ```
 
-## TODO
-
-Will be added soon:
-
-- Linkerd (Work in progress)
-
 ## License
 
 This template is under MIT license.
