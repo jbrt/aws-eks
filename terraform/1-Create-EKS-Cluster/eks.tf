@@ -25,6 +25,7 @@ module "eks" {
       key_name             = var.key_pair
       root_encrypted       = true
       root_kms_key_id      = var.kms_key_id
+      enabled_metrics      = ["GroupMinSize", "GroupMaxSize", "GroupDesiredCapacity"]
     },
   ]
 
