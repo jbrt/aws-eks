@@ -20,13 +20,13 @@ module "vpc" {
   vpc_tags = merge(
     local.tags,
     {
-      "kubernetes.io/cluster/${var.cluster_name}" = "shared"
+      "kubernetes.io/cluster/${var.cluster_name}-${terraform.workspace}" = "shared"
     },
   )
   public_subnet_tags = merge(
     local.tags,
     {
-      "kubernetes.io/cluster/${var.cluster_name}" = "shared"
+      "kubernetes.io/cluster/${var.cluster_name}-${terraform.workspace}" = "shared"
     },
   )
   private_subnet_tags = merge(
