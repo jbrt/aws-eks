@@ -3,7 +3,7 @@
 
 module "vpc" {
   source  = "terraform-aws-modules/vpc/aws"
-  version = "2.9.0"
+  version = "2.64.0"
 
   name            = "vpc-${var.cluster_name}-${terraform.workspace}"
   cidr            = var.vpc_cidr
@@ -17,23 +17,27 @@ module "vpc" {
   single_nat_gateway   = false
 
   tags = local.tags
+
   vpc_tags = merge(
     local.tags,
     {
       "kubernetes.io/cluster/${var.cluster_name}-${terraform.workspace}" = "shared"
     },
   )
+
   public_subnet_tags = merge(
     local.tags,
     {
       "kubernetes.io/cluster/${var.cluster_name}-${terraform.workspace}" = "shared"
     },
   )
+
   private_subnet_tags = merge(
     local.tags,
     {
       "kubernetes.io/role/internal-elb" = 1
     },
   )
+
 }
 

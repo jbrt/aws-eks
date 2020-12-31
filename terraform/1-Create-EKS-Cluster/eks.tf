@@ -4,7 +4,7 @@
 
 module "eks" {
   source  = "terraform-aws-modules/eks/aws"
-  version = "5.0.0"
+  version = "13.2.1"
 
   cluster_version                    = var.cluster_version
   cluster_name                       = "${var.cluster_name}-${terraform.workspace}"
@@ -32,3 +32,10 @@ module "eks" {
   tags = local.tags
 }
 
+data "aws_eks_cluster" "cluster" {
+  name = module.eks.cluster_id
+}
+
+data "aws_eks_cluster_auth" "cluster" {
+  name = module.eks.cluster_id
+}
