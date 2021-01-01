@@ -35,46 +35,12 @@ variable "cluster_enabled_log_types" {
 
 # EKS Workers variables
 
-variable "instance_size" {
-  description = "The size of the instances used by EKS workers ASG"
-  type        = string
+variable "workers_nodes" {
+  description = "Description of the worker groups to create"
 }
 
-variable "key_pair" {
-  description = "Key pair used for the instance workers"
-  type        = string
-  default     = ""
-}
-
-variable "encrypted_volumes" {
-  description = "Encrypt EBS volumes for EKS workers"
-}
-
-variable "kms_key_id" {
-  description = "KMS Key ID to use for encrypting volumes. If empty the default EBS key will be used."
-  type        = string
-  default     = ""
-}
-
-variable "asg_min" {
-  description = "Minimal number of instances"
-  default     = 2
-}
-
-variable "asg_desired" {
-  description = "Desired number of instances"
-  default     = 3
-}
-
-variable "asg_max" {
-  description = "Minimal number of instances"
-  default     = 6
-}
-
-# CloudWatch variables
-
-variable "log_retention" {
-  description = "Number of days for log retention"
+variable "fargate_profiles" {
+  description = "Description of the Fargate Profile to create"
 }
 
 # Network & Tags
@@ -90,7 +56,4 @@ locals {
   public_subnets     = [cidrsubnet(var.vpc_cidr, 8, 1), cidrsubnet(var.vpc_cidr, 8, 2), cidrsubnet(var.vpc_cidr, 8, 3)]
   private_subnets    = [cidrsubnet(var.vpc_cidr, 8, 10), cidrsubnet(var.vpc_cidr, 8, 20), cidrsubnet(var.vpc_cidr, 8, 30)]
 
-  log_group_containers = "/eks/${var.cluster_name}/containers"
-  log_group_systemd    = "/eks/${var.cluster_name}/systemd"
 }
-

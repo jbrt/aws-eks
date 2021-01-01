@@ -37,6 +37,9 @@ module "vpc" {
     {
       "kubernetes.io/role/internal-elb" = 1
     },
+    {
+      "kubernetes.io/cluster/${var.cluster_name}-${terraform.workspace}" = "shared"
+    },
   )
 
 }
